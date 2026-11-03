@@ -1,0 +1,41 @@
+.header{
+    /* o display flex coloca os elemento do header lado a lado */
+    display: flex; 
+    align-items: center;
+    /* O between aplica um espaço nos elementos que compoe o heade */
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px 60px;
+    box-sizing: border-box;
+    background-color: #0f172a;
+    border-bottom: 1px solid #1e29bb;
+}
+
+.logo{
+    font-size: 20px;
+    font-weight: 700;
+    color: #f8fafc;
+}
+
+.navigation{
+    display: flex;
+    gap: 30px;
+}
+
+.navigation a{
+    color: #94a3b8;
+    text-decoration: none;
+}
+
+.navigation a:hover{
+    color: #38bdf8;
+}
+
+.navigation a.active {
+  color: #38bdf8;
+}
+
+.header-action a{
+    color: #38bdf8;
+    text-decoration: none;
+}
