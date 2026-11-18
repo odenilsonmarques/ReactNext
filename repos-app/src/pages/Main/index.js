@@ -16,6 +16,10 @@ function Main() {
     const [usuarioEncontrado, setUsuarioEncontrado] = useState(null);
 
 
+    //Estado responsável por armazenar os repositórios do usuário. Nesse caso estamos iniciando com um array vazio pq ainda nao temos repositórios carregados
+    const [repositorio, setRepositorio] = useState([]);
+
+
     //função responsável por capturar o que foi digitado
     function handleInputChange(event) {
 
@@ -42,17 +46,22 @@ function Main() {
         try {
             //faz a reuisição para a API
             const response = await api.get(`/users/${encodeURIComponent(usuario.trim())}`);
-
             // Armazena os dados recebidos no estado.
             setUsuarioEncontrado(response.data);
-
             console.log(response.data);
+
+            //Busca os repositórios desse mesmo usuário
+            const responseRepos = await api.get(`/users/${encodeURIComponent(usuario)}/repos`);
+            setRepositorio(responseRepos.data);
+            console.log(responseRepos.data);
+
 
         } catch (error) {
             //Caso o usuário não for encontrado ou ocorra outro erro.
             console.log(error);
 
             setUsuarioEncontrado(null);
+            setRepositorio([]);
 
             alert('Não foi possivel encontrar esse usuário.');
 
@@ -109,6 +118,30 @@ function Main() {
                         Acessar perfil no GitHub
                     </a>
 
+                </div>
+            )}
+
+
+            {/* Exibe a lista somente se houver pelo menos 1 repositório no array */}
+            {repositorio.length > 0 && (
+                <div>
+                    <h3>Repositórios ({repositorio.length})</h3>
+
+                    <ul>
+                        {repositorio.map((repo) => (
+                            <li key={repo.id}>
+                                <strong>{repo.name}</strong>
+                                <p>{repo.description || 'Sem descrição'}</p>
+                                <a
+                                    href={repo.html_url}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    Ver código no GitHub
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             )}
 
