@@ -4,6 +4,8 @@ import { useState } from "react";
 //importamos nossa instância do Axios.
 import api from '../../services/api';
 
+import {Link} from 'react-router-dom';
+
 
 function Main() {
 
@@ -73,6 +75,7 @@ function Main() {
     return (
         <div className="container">
             <h1>GitHub Explorer</h1>
+            <Link to="/repositorio">Ir para Meus Repositórios</Link>
 
             <p>Pesquise usuários e explore seus repositórios</p>
 
