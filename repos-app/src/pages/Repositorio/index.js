@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
 import api from '../../services/api';
 
 function Repositorio() {
@@ -7,7 +8,22 @@ function Repositorio() {
 
 
     //Guarda a lista de repositório encontrado para exibir nos cards
-    const [repositorios, setRepositorios] = useState([]);
+    // Em vez de passar [] direto no useState, passamos uma função que verifica se já existe algo salvo no navegador. 
+    // Se existir, converte de texto de volta para array com JSON.parse(); se não existir, começa como array vazio []:
+    const [repositorios, setRepositorios] = useState(() => {
+
+        const reposSalvos = localStorage.getItem('@githubExplorer:repositorios');
+        return reposSalvos ? JSON.parse(reposSalvos) : [];
+
+    });
+
+    // Salva no localStorage sempre que "repositorios" mudar
+    useEffect(() => {
+        localStorage.setItem('@githubExplorer:repositorios', JSON.stringify(repositorios));
+    }, [repositorios]);
+
+
+
 
     function handleInputChange(event) {
         setNovoRepo(event.target.value);
